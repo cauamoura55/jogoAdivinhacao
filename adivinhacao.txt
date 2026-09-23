@@ -1,9 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h> // Required for rand() and srand()
+#include <time.h>   // Required for time()
 
-int main(){
-	printf("**********************");
-	
-	printf("Bem-vindo ao Jogo de Adivinhação *");
-	
-	printf("**********************);
+int main() {
+    printf("**********************\n");
+	printf("Bem-vindo ao Jogo de Adivinhação *\n");
+	printf("**********************\n\n");
+    
+    while(true){
+        int chute;
+        // Seed the generator with the current time
+        srand(time(NULL));
+
+        // Generate a random number between 1 and 100
+        // Formula: (rand() % (max - min + 1)) + min
+        int random_num = (rand() % 100) + 1 ;
+
+        printf("Digite um numero para checar se você acertou o numero secreto: ");
+        scanf("%d", &chute);
+    
+        if (random_num == chute){
+            printf("Parabéns você acertou, o numero era: %d",random_num);
+        }
+        else{
+            printf("Você errou, o número era: %d",random_num);
+        }
+    }
+    printf("Deseja tentar novamente? S para sim e N para não: ")
+    scanf()
+    return 0;
 }
