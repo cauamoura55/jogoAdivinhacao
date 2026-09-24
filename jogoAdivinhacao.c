@@ -2,56 +2,74 @@
 #include <stdlib.h>
 #include <time.h>
 
+int validarNumero(int *chute)
+{
+    int resultado;
+    resultado = scanf("%d", chute);
+    if (resultado == 1)
+    {
+        return 1;
+    }
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+    {
+    }
+    return 0;
+}
+
 int main()
 {
     printf("**********************\n");
     printf("Bem-vindo ao Jogo de Adivinhacao *\n");
     printf("**********************\n\n");
 
-    int vidas = 8;
+    int vidas = 1;
     char resposta = 's';
     int chute;
     srand(time(NULL));
-    int numeroSecreto = (rand() % 100) + 1;
-    int validarNumero;
 
     while (resposta == 's')
     {
+        int tentativas = 1;
+        int numeroSecreto = (rand() % 100) + 1;
+        printf("numero Secreto: %d\n", numeroSecreto);
+        do
+        {
+            printf("Digite a quantidade de vidas que voce quer: ");
+            
+            while (!validarNumero(&vidas))
+            {
+                printf("Apenas numeros! Digite novamente: ");
+            }
+            if (vidas <= 0 || vidas >= 11)
+            {
+                printf("\nApenas de 1 a 10\n");
+            }
+        } while (vidas <= 0 || vidas >= 11);
+
         while (vidas > 0)
         {
 
-            do
+            if (tentativas == 1)
             {
-                if (vidas == 8)
-                {
-                    printf("Digite um numero para tentar acertar o numero secreto de 1 a 100: ");
-                    validarNumero = scanf("%d", &chute);
-                }
-                else
-                {
-                    printf("Tente novamente: ");
-                    validarNumero = scanf("%d", &chute);
-                }
-                if (validarNumero == 0)
-                {
-                    printf("\nApenas numeros!\n\n");
-
-                    int c;
-
-                    while ((c = getchar()) != '\n' && c != EOF)
-                    {
-                    }
-                }
-            } while (validarNumero == 0);
+                printf("Digite um numero para tentar acertar o numero secreto de 1 a 100: ");
+                tentativas = 0;
+            }
+            else
+            {
+                printf("Tente novamente: ");
+            }
+            while (!validarNumero(&chute))
+            {
+                printf("Apenas numeros! Digite novamente: ");
+            }
 
             if (chute != numeroSecreto)
             {
                 vidas--;
             }
 
-            // printf("numero Secreto: %d\n", numeroSecreto);
-            
-            if (vidas > 0)
+            if (vidas > 0 || chute == numeroSecreto)
             {
                 printf("\n#############################################\n");
                 printf("\nvoce tem %d vidas!\n\n", vidas);
@@ -94,7 +112,7 @@ int main()
         if (resposta == 's')
         {
             numeroSecreto = (rand() % 100) + 1;
-            vidas = 8;
+            vidas = 1;
         }
         if (resposta == 'n')
         {
