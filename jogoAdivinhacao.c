@@ -5,15 +5,24 @@
 int validarNumero(int *chute)
 {
     int resultado;
+    
     resultado = scanf("%d", chute);
-    if (resultado == 1)
+
+    if (resultado != 1)
+    {
+        int c;
+
+        while ((c = getchar()) != '\n' && c != EOF)
+        {
+        }
+        return 0;
+    }
+
+    if (*chute > 0 && *chute < 101)
     {
         return 1;
     }
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-    {
-    }
+
     return 0;
 }
 
@@ -35,8 +44,8 @@ int main()
         printf("numero Secreto: %d\n", numeroSecreto);
         do
         {
-            printf("Digite a quantidade de vidas que voce quer: ");
-            
+            printf("Escolha sua quantidade de vidas de 1 a 10: ");
+
             while (!validarNumero(&vidas))
             {
                 printf("Apenas numeros! Digite novamente: ");
@@ -61,7 +70,7 @@ int main()
             }
             while (!validarNumero(&chute))
             {
-                printf("Apenas numeros! Digite novamente: ");
+                printf("Apenas numeros de 1 a 100! Digite novamente: ");
             }
 
             if (chute != numeroSecreto)
@@ -69,11 +78,7 @@ int main()
                 vidas--;
             }
 
-            if (vidas > 0 || chute == numeroSecreto)
-            {
-                printf("\n#############################################\n");
-                printf("\nvoce tem %d vidas!\n\n", vidas);
-            }
+            printf("\n#############################################\n\n");
 
             if (chute < numeroSecreto && vidas > 0)
             {
@@ -83,14 +88,20 @@ int main()
             {
                 printf("Seu chute foi maior que o numero secreto\n\n");
             }
+
+            if (vidas > 0 && chute != numeroSecreto)
+            {
+                printf("voce tem %d vida(s)!\n\n", vidas);
+            }
+
             if (chute == numeroSecreto)
             {
-                printf("Parabens! voce acertou, o numero era: %d\n", numeroSecreto);
+                printf("Parabens! voce acertou, o numero secreto era: %d\n", numeroSecreto);
             }
 
             if (vidas == 0)
             {
-                printf("\nVoce perdeu, o numero secreto era: %d\n", numeroSecreto);
+                printf("Voce perdeu, o numero secreto era: %d\n", numeroSecreto);
             }
 
             if (vidas == 0 || chute == numeroSecreto)
@@ -102,18 +113,13 @@ int main()
 
                     if (resposta != 's' && resposta != 'n')
                     {
-                        printf("Apenas s ou n\n");
+                        printf("\nApenas s ou n\n");
                     }
                 } while (resposta != 's' && resposta != 'n');
                 break;
             }
         }
 
-        if (resposta == 's')
-        {
-            numeroSecreto = (rand() % 100) + 1;
-            vidas = 1;
-        }
         if (resposta == 'n')
         {
             printf("\nObrigado por jogar!");
