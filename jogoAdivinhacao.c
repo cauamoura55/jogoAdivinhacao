@@ -5,7 +5,7 @@
 int validarNumero(int *chute)
 {
     int resultado;
-    
+
     resultado = scanf("%d", chute);
 
     if (resultado != 1)
@@ -35,15 +35,45 @@ int main()
     int vidas = 1;
     char resposta = 's';
     int chute;
+    char dificuldade;
     srand(time(NULL));
+    int numeroSecreto = (rand() % 100) + 1;
 
     while (resposta == 's')
     {
         int tentativas = 1;
-        int numeroSecreto = (rand() % 100) + 1;
         printf("numero Secreto: %d\n", numeroSecreto);
+
         do
         {
+            printf("Selecione sua dificuldade -> f (facil), m (medio) e d (dificil): ");
+            scanf(" %c", &dificuldade);
+
+            if (dificuldade != 'f' && dificuldade != 'm' && dificuldade != 'd')
+            {
+                printf("\nApenas f, m ou d!\n");
+            }
+
+        } while (dificuldade != 'f' && dificuldade != 'm' && dificuldade != 'd');
+
+        if (dificuldade == 'f')
+        {
+            numeroSecreto = (rand() % 10) + 1;
+        }
+
+        if (dificuldade == 'm')
+        {
+            numeroSecreto = (rand() % 100) + 1;
+        }
+
+        if (dificuldade == 'd')
+        {
+            numeroSecreto = (rand() % 1000) + 1;
+        }
+        do
+        {
+            printf("numero Secreto 1 a 10: %d\n", numeroSecreto);
+
             printf("Escolha sua quantidade de vidas de 1 a 10: ");
 
             while (!validarNumero(&vidas))
