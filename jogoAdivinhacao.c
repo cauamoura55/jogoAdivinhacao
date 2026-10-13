@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-int validarNumero(int *chute)
+int validarNumero(int *numero)
 {
-    int resultado;
-
-    resultado = scanf("%d", chute);
+    int resultado = scanf("%d", numero);
 
     if (resultado != 1)
     {
@@ -15,15 +13,30 @@ int validarNumero(int *chute)
         while ((c = getchar()) != '\n' && c != EOF)
         {
         }
+
         return 0;
     }
 
-    if (*chute > 0 && *chute < 101)
-    {
-        return 1;
-    }
+    return 1;
+}
 
-    return 0;
+int validarIntervalo(int *chute, char *dificuldade)
+{
+
+    switch (*dificuldade)
+    {
+        case 'f':
+            return *chute >= 1 && *chute <= 10;
+
+        case 'm':
+            return *chute >= 1 && *chute <= 100;
+
+        case 'd':
+            return *chute >= 1 && *chute <= 1000;
+
+        default:
+            return 0;
+    }
 }
 
 int main()
@@ -37,12 +50,11 @@ int main()
     int chute;
     char dificuldade;
     srand(time(NULL));
-    int numeroSecreto = (rand() % 100) + 1;
+    int numeroSecreto;
 
     while (resposta == 's')
     {
         int tentativas = 1;
-        printf("numero Secreto: %d\n", numeroSecreto);
 
         do
         {
@@ -56,25 +68,27 @@ int main()
 
         } while (dificuldade != 'f' && dificuldade != 'm' && dificuldade != 'd');
 
-        if (dificuldade == 'f')
+        switch (dificuldade)
         {
-            numeroSecreto = (rand() % 10) + 1;
+            case 'f':
+                numeroSecreto = (rand() % 10) + 1;
+                printf("numero Secreto: %d\n", numeroSecreto);
+                break;
+
+            case 'm':
+                numeroSecreto = (rand() % 100) + 1;
+                printf("numero Secreto: %d\n", numeroSecreto);
+                break;
+
+            case 'd':
+                numeroSecreto = (rand() % 1000) + 1;
+                printf("numero Secreto: %d\n", numeroSecreto);
+                break;
         }
 
-        if (dificuldade == 'm')
-        {
-            numeroSecreto = (rand() % 100) + 1;
-        }
-
-        if (dificuldade == 'd')
-        {
-            numeroSecreto = (rand() % 1000) + 1;
-        }
         do
         {
-            printf("numero Secreto 1 a 10: %d\n", numeroSecreto);
-
-            printf("Escolha sua quantidade de vidas de 1 a 10: ");
+           printf("Escolha sua quantidade de vidas de 1 a 10: ");
 
             while (!validarNumero(&vidas))
             {
@@ -86,27 +100,49 @@ int main()
             }
         } while (vidas <= 0 || vidas >= 11);
 
+
         while (vidas > 0)
         {
 
             if (tentativas == 1)
             {
-                printf("Digite um numero para tentar acertar o numero secreto de 1 a 100: ");
-                tentativas = 0;
-            }
-            else
+                switch(dificuldade)
+                {
+                    case 'f':
+                        printf("\nDigite um numero de 1 a 10: ");
+                        break;
+                    case 'm':
+                        printf("\nDigite um numero de 1 a 100: ");
+                        break;
+                    case 'd':
+                        printf("\nDigite um numero de 1 a 1000: ");
+                        break;
+                }
+            }else
             {
-                printf("Tente novamente: ");
+                printf("\nTente novamente: ");
             }
-            while (!validarNumero(&chute))
+
+            while (1)
             {
-                printf("Apenas numeros de 1 a 100! Digite novamente: ");
-            }
+                while (!validarNumero(&chute))
+                {
+                    printf("Apenas numeros, digite novamente: ");
+                }
+
+                if (validarIntervalo(&chute, &dificuldade))
+                {
+                    break;
+                }
+            printf("Numero fora do escopo! digite novamente: ");
+           }
 
             if (chute != numeroSecreto)
             {
                 vidas--;
             }
+
+            tentativas++;
 
             printf("\n#############################################\n\n");
 
